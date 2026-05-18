@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ромашковая долина</title>
+    <link rel="icon" href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.meme-arsenal.com%2Fmemes%2Fb92b52f9bbb6fa5c39076b0807baa727.jpg&f=1&nofb=1&ipt=c7b4a79d6da9d8f40e2a7f30e8bc4da804fb0c86fadeb986b827034e8e60ad4f" type="image/jpg">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500&display=swap');
+
+        :root {
+            --accent: #b993d6; 
+            --text-main: #4a4e69; 
+            /* Основные цвета для темного стекла */
+            --dark-glass-bg: rgba(10, 10, 15, 0.65);
+            --dark-glass-border: rgba(255, 255, 255, 0.1);
+            --dark-glass-shadow: rgba(0, 0, 0, 0.6);
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            background: url('https://7fon.club/pics/uploads/posts/2023-04/1680669831_7fon-club-p-oboi-s-yezhikom-iz-smesharikov-29.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            font-family: 'Comfortaa', cursive;
+            overflow: hidden; color: var(--text-main);
+            background-color: #fdfcfb; 
+        }
+
+        /* 1. Прячем чекбокс */
+        #drawer-toggle { display: none; }
+
+        /* Центральная поисковая строка */
+        .search-container {
+            display: flex; justify-content: center; align-items: center; height: 100%;
+        }
+
+        /* ПОИСКОВАЯ СТРОКА - ТЕМНОЕ СТЕКЛО */
+        .search-box {
+            width: 45%; max-width: 600px; min-width: 300px;
+            padding: 18px 25px;
+            background: var(--dark-glass-bg);
+            backdrop-filter: blur(25px) saturate(120%);
+            -webkit-backdrop-filter: blur(25px) saturate(120%);
+            border: 1px solid var(--dark-glass-border);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px var(--dark-glass-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            display: flex; transition: all 0.3s ease;
+        }
+        .search-box:focus-within {
+            border-color: var(--accent);
+            background: rgba(10, 10, 15, 0.85);
+            box-shadow: 0 0 20px rgba(185, 147, 214, 0.3), 0 20px 50px var(--dark-glass-shadow);
+        }
+        .search-input {
+            width: 100%; background: transparent; border: none;
+            color: #ffffff;
+            font-size: 20px; font-weight: 300; letter-spacing: 0.5px; outline: none;
+        }
+        .search-input::placeholder { color: rgba(255, 255, 255, 0.5); font-weight: 300; }
+
+        /* ВЫЕЗЖАЮЩАЯ ШТОРКА СВЕРХУ-ВНИЗ (ТЕМНОЕ СТЕКЛО) */
+        .bookmarks-drawer {
+            position: fixed; 
+            top: -100%; 
+            right: 20px; 
+            width: 120px; 
+            height: auto; 
+            max-height: 90vh; 
+            overflow-y: auto;
+            background: var(--dark-glass-bg); 
+            backdrop-filter: blur(25px) saturate(120%);
+            -webkit-backdrop-filter: blur(25px) saturate(120%);
+            border: 1px solid var(--dark-glass-border); 
+            border-radius: 25px;
+            transition: top 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+            padding: 95px 15px 20px 15px; 
+            box-sizing: border-box;
+            display: flex; flex-direction: column; gap: 8px; z-index: 10;
+            box-shadow: 0 20px 50px var(--dark-glass-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            opacity: 0; pointer-events: none;
+        }
+
+        /* Прячем ползунок прокрутки */
+        .bookmarks-drawer::-webkit-scrollbar { display: none; }
+
+        /* 3. МАГИЯ CSS: Вытягиваем шторку сверху */
+        #drawer-toggle:checked ~ .bookmarks-drawer { 
+            top: 15px; 
+            opacity: 1; pointer-events: auto;
+        }
+
+        /* Элементы закрепов */
+        .bookmark-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none; color: rgba(255, 255, 255, 0.85);
+            font-size: 12px; font-weight: 500;
+            padding: 15px 5px; border-radius: 15px; border: 1px solid transparent;
+            transition: all 0.2s ease; text-align: center;
+        }
+        .bookmark-item:hover {
+            background: rgba(255, 255, 255, 0.1); 
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transform: translateY(3px); 
+        }
+        .bookmark-item img { width: 32px; height: 32px; border-radius: 6px; opacity: 0.85; transition: 0.2s; object-fit: contain; }
+        .bookmark-item:hover img { opacity: 1; transform: scale(1.15); }
+
+        /* КНОПКА ЗАКРЕПОВ - ТЕМНОЕ СТЕКЛО */
+        .toggle-btn {
+            position: fixed; 
+            top: 35px; 
+            right: 57px; 
+            /* Тоже черное тонированное стекло */
+            background: var(--dark-glass-bg);
+            border: 1px solid var(--dark-glass-border);
+            backdrop-filter: blur(10px); 
+            width: 46px; height: 46px; border-radius: 15px; cursor: pointer;
+            /* Более глубокая тень для темной кнопки */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); 
+            transition: all 0.3s ease; z-index: 20;
+            display: flex; justify-content: center; align-items: center;
+            outline: none;
+        }
+        .toggle-btn:hover { 
+            border-color: var(--accent); 
+            background: rgba(10, 10, 15, 0.85);
+            box-shadow: 0 0 15px rgba(185, 147, 214, 0.3); 
+        }
+        
+        /* Цвета иконки внутри кнопки */
+        .toggle-btn svg { 
+            width: 20px; height: 20px; transition: 0.3s; 
+            color: rgba(255, 255, 255, 0.6); /* Светлая по умолчанию */
+        }
+        .toggle-btn:hover svg { color: #fff; }
+        
+        /* 4. МАГИЯ CSS: Анимация и цвет иконки при открытии */
+        #drawer-toggle:checked ~ .toggle-btn svg { 
+            transform: rotate(15deg) scale(1.1); /* Легкий наклон книги */
+            color: var(--accent); /* Лавандовый цвет активированной книги */
+        }
+
+        /* Слой для закрытия по клику мимо */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 5; display: none; cursor: default;
+        }
+        #drawer-toggle:checked ~ .overlay { display: block; }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" id="drawer-toggle">
+
+    <div class="search-container">
+        <form class="search-box" action="https://duckduckgo.com/" method="get">
+            <input type="text" name="q" class="search-input" placeholder="Поиск в Ромашковой долине..." autocomplete="off" autofocus>
+        </form>
+    </div>
+
+    <div class="bookmarks-drawer" id="drawer">
+        <a href="https://notebooklm.google.com/?authuser=1&pageId=none" class="bookmark-item">
+            <img src="https://icons.duckduckgo.com/ip3/notebooklm.google.com.ico" alt="NL"> NotebookLM
+        </a>
+        
+        <a href="https://gemini.google.com/u/1/app" class="bookmark-item">
+            <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" alt="GE"> Gemini
+        </a>
+
+        <a href="https://github.com" class="bookmark-item">
+            <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GH"> GitHub
+        </a>
+
+        <a href="https://www.youtube.com" class="bookmark-item">
+            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.yyWbcDEYCVl3M59lrVEZnQHaHX%3Fr%3D0%26pid%3DApi&f=1&ipt=248295a8af386ed5243cf092727ba33895fab93d7ec87eb226f1691848ae2141&ipo=images" alt="YT"> YouTube
+        </a>
+
+        <a href="https://reddit.com" class="bookmark-item">
+            <img src="https://www.redditstatic.com/desktop2x/img/favicon/favicon-32x32.png" alt="RD"> Reddit
+        </a>
+
+        <a href="https://drive.google.com/drive/u/1/my-drive" class="bookmark-item">
+            <img src="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" alt="GD"> Drive
+        </a>
+    </div>
+
+    <label for="drawer-toggle" class="overlay"></label>
+
+    <label for="drawer-toggle" class="toggle-btn" title="Показать закрепы">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <path d="M10 2v10l3-3 3 3V2H10z" fill="currentColor" stroke="none"></path>
+        </svg>
+    </label>
+
+</body>
+</html>

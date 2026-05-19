@@ -1,5 +1,5 @@
 # 1. Создаем папку для шаблонов pywal, если её ещё нет
-mkdir -p ~/.config/wal/templates
+mkdir -p ~/.cache/wal/colors-hyprland.conf
 
 # 2. Автоматически генерируем файл шаблона со всеми переменными
 cat << 'EOF' > ~/.config/wal/templates/colors-hyprland.conf
